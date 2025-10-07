@@ -24,7 +24,6 @@ UCHAR   nor_cache_memory2[8192];
 
 /* Define LevelX NOR flash simulator prototoypes.  */
 
-UINT  _lx_nor_flash_simulator_erase_all(VOID);
 UINT  _lx_nor_flash_simulator_initialize(LX_NOR_FLASH *nor_flash);
 
 
@@ -74,15 +73,13 @@ UINT    status;
 ULONG   *word_ptr;
 
   
-    /* Erase the simulated NOR flash.  */
-    _lx_nor_flash_simulator_erase_all();
-    
     /* Initialize LevelX.  */
     _lx_nor_flash_initialize();
     
     /* Test 1: Simple write 100 sectors and read 100 sectors.  */
     printf("Test 1: Simple write-read 100 sectors...........");
     
+    lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
     lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
 #ifndef LX_NOR_DISABLE_EXTENDED_CACHE
 lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, sizeof(nor_cache_memory));
@@ -267,10 +264,9 @@ lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, sizeof(nor_
     printf("Test 2: Write same sector 120 times.............");
     
     /* Reinitialize...  */    
-    _lx_nor_flash_simulator_erase_all();
-    
     
     lx_nor_flash_initialize();
+    lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
     lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
 #ifndef LX_NOR_DISABLE_EXTENDED_CACHE
 lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, sizeof(nor_cache_memory));
@@ -1430,10 +1426,11 @@ status += lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, s
 
     printf("Test 5: Randow write/read sector................");
 
-    /* Erase the simulated NOR flash.  */
-    _lx_nor_flash_simulator_erase_all();
+    /*format the simulated NOR flash.  */
+   
 
     /* Open the flash.  */    
+    status =  lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
     status =  lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
 #ifndef LX_NOR_DISABLE_EXTENDED_CACHE
 status += lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, sizeof(nor_cache_memory));
@@ -1578,8 +1575,8 @@ status += lx_nor_flash_extended_cache_enable(&nor_sim_flash, nor_cache_memory, s
 
     printf("Test 6: Check lx_nor_flash_extended_cache_entries size................");
 
-    /* Erase the simulated NOR flash.  */
-    _lx_nor_flash_simulator_erase_all();
+    /* Format the simulated NOR flash.  */
+    status =  lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
 
     /* Open the flash.  */    
     status =  lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
