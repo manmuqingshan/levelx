@@ -290,7 +290,7 @@ ULONG   block_word;
     
     /* Loop through the memory supplied and assign to cache entries.  */
     i =  0;
-    while (cache_size >= LX_NOR_SECTOR_SIZE)
+    while ((cache_size >= LX_NOR_SECTOR_SIZE) && (i < LX_NOR_EXTENDED_CACHE_SIZE))
     {
     
         /* Setup this cache entry.  */
@@ -309,7 +309,7 @@ ULONG   block_word;
     }
     
     /* Save the number of cache entries.  */
-    if(i > LX_NOR_EXTENDED_CACHE_SIZE)
+    if(i == LX_NOR_EXTENDED_CACHE_SIZE)
     {
 
         nor_flash -> lx_nor_flash_extended_cache_entries =  LX_NOR_EXTENDED_CACHE_SIZE;
