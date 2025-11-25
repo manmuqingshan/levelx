@@ -90,7 +90,7 @@ UINT  _lx_nand_flash_block_find(LX_NAND_FLASH *nand_flash, ULONG logical_sector,
     block_mapping_index = logical_sector / nand_flash -> lx_nand_flash_pages_per_block;
 
     /* Check the address range.  */
-    if (block_mapping_index > nand_flash -> lx_nand_flash_block_mapping_table_size / sizeof(*nand_flash -> lx_nand_flash_block_mapping_table))
+    if (block_mapping_index >= nand_flash -> lx_nand_flash_block_mapping_table_size / sizeof(*nand_flash -> lx_nand_flash_block_mapping_table))
     {
 
         /* Out of range, return an error. */
