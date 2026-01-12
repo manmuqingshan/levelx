@@ -21,7 +21,6 @@ ULONG           readbuffer[128];
 
 /* Define LevelX NOR flash simulator prototoypes.  */
 
-UINT  _lx_nor_flash_simulator_erase_all(VOID);
 UINT  _lx_nor_flash_simulator_initialize(LX_NOR_FLASH *nor_flash);
 
 
@@ -70,12 +69,13 @@ UINT    status;
 ULONG   *word_ptr;
 
   
-    /* Erase the simulated NOR flash.  */
-    _lx_nor_flash_simulator_erase_all();
+    /* format the simulated NOR flash.  */
     
     /* Initialize LevelX.  */
     _lx_nor_flash_initialize();
     
+    lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
+
     /* Test 1: Simple write 100 sectors and read 100 sectors.  */
     printf("Test 1: Simple write-read 100 sectors...........");
     
@@ -141,10 +141,10 @@ ULONG   *word_ptr;
     printf("Test 2: Write same sector 120 times.............");
     
     /* Reinitialize...  */    
-    _lx_nor_flash_simulator_erase_all();
-    
     
     lx_nor_flash_initialize();
+    lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
+
     lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
 
     for (j = 0; j < 128; j++)
@@ -1283,9 +1283,9 @@ ULONG   *word_ptr;
 
     printf("Test 5: Randow write/read sector................");
 
-    /* Erase the simulated NOR flash.  */
-    _lx_nor_flash_simulator_erase_all();
+    /* format the simulated NOR flash.  */
 
+    lx_nor_flash_format(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize, NULL);
     /* Open the flash.  */    
     status =  lx_nor_flash_open(&nor_sim_flash, "sim nor flash", _lx_nor_flash_simulator_initialize);
 
