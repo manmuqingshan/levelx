@@ -77,13 +77,8 @@ UINT  _lx_nor_flash_format(LX_NOR_FLASH  *nor_flash, CHAR *name, UINT (*nor_driv
 ULONG           l;
 UINT            status;
 
-ULONG           *block_word_ptr;
-ULONG           bit_map_words;
-ULONG            sectors_per_block;
-ULONG           bit_map_mask;
 ULONG           block_word;
-
-    LX_INTERRUPT_SAVE_AREA
+ULONG           *block_word_ptr;
 
     LX_PARAMETER_NOT_USED(name);
 
@@ -106,14 +101,8 @@ ULONG           block_word;
     }
 #endif
 
-    nor_flash -> lx_nor_flash_block_free_bit_map_offset =  sizeof(LX_NOR_FLASH_BLOCK_HEADER)/sizeof(ULONG);
-
-    LX_DISABLE
     for (l = 0; l < nor_flash -> lx_nor_flash_total_blocks; l++)
     {
-        /* Setup the initial erase count to 0, assuming that the block is already erased  */
-        block_word =  ((ULONG) 0);
-
 #ifdef LX_NOR_ENABLE_CONTROL_BLOCK_FOR_DRIVER_INTERFACE
         /* Check that the block is already erased */
         status =  (nor_flash -> lx_nor_flash_driver_block_erased_verify)(nor_flash, l);
@@ -133,7 +122,6 @@ ULONG           block_word;
                 /* Call system error handler.  */
                 _lx_nor_flash_system_error(nor_flash, status);
 
-                LX_RESTORE
                 /* Return an error.  */
                return(LX_ERROR);
             }
@@ -150,49 +138,18 @@ ULONG           block_word;
                 /* Call system error handler.  */
                 _lx_nor_flash_system_error(nor_flash, status);
 
-                LX_RESTORE
                 /* Return an error.  */
                 return(LX_ERROR);
-            }
-            else
-            {
-                /* the block has been erased, thus incrememt its erase_count */
-                block_word =  ((ULONG) 1);
             }
         }
 
         /* Setup the block word pointer to the first word of the first block */
         block_word_ptr =  nor_flash -> lx_nor_flash_base_address + l * nor_flash -> lx_nor_flash_words_per_block;
 
-        /* Calculate the number of bits we need in the free physical sector bit map */
-        sectors_per_block =  (nor_flash -> lx_nor_flash_words_per_block / LX_NOR_SECTOR_SIZE) - 1;
-
-        /* Calculate the number of words we need for the free physical sector bit map.  */
-        bit_map_words =  (sectors_per_block + 31)/ 32;
-
-        if ((sectors_per_block % 32) != 0)
-        {
-            bit_map_mask =  (ULONG)(1 << (sectors_per_block % 32));
-            bit_map_mask =  bit_map_mask - 1;
-        }
-        else
-        {
-
-            /* Exactly 32 sectors for the bit map mask.  */
-            bit_map_mask =  LX_ALL_ONES;
-        }
-        status =  _lx_nor_flash_driver_write(nor_flash, block_word_ptr + (nor_flash -> lx_nor_flash_block_free_bit_map_offset + (bit_map_words-1)) , &bit_map_mask, 1);
-        if (status)
-        {
-            /* Call system error handler.  */
-            _lx_nor_flash_system_error(nor_flash, status);
-
-            LX_RESTORE
-            /* Return an error.  */
-            return(LX_ERROR);
-        }
-
-        block_word =  (block_word | LX_BLOCK_ERASED);
+        /* Setup the initial erase_count to 1 and mark the block as erased.
+         * When the lx_nor_flash_open() gets called only the erase count will be kept.
+         */
+        block_word =  ((ULONG)1 | LX_BLOCK_ERASED);
 
         status =  _lx_nor_flash_driver_write(nor_flash, block_word_ptr, &block_word, 1);
         if (status)
@@ -200,15 +157,11 @@ ULONG           block_word;
             /* Call system error handler.  */
             _lx_nor_flash_system_error(nor_flash, status);
 
-            LX_RESTORE
             /* Return an error.  */
             return(LX_ERROR);
         }
 
     }
-
-    /* Restore interrupts.  */
-    LX_RESTORE
 
     return(LX_SUCCESS);
 }
