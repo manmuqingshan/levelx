@@ -148,9 +148,9 @@ typedef unsigned long long                      ULONG64;
 /* Define basic constants for the LevelX Stack.  */
 #define AZURE_RTOS_LEVELX
 #define LEVELX_MAJOR_VERSION                        6
-#define LEVELX_MINOR_VERSION                        4
-#define LEVELX_PATCH_VERSION                        5
-#define LEVELX_BUILD_VERSION                        202504
+#define LEVELX_MINOR_VERSION                        5
+#define LEVELX_PATCH_VERSION                        0
+#define LEVELX_BUILD_VERSION                        202601
 #define LEVELX_HOTFIX_VERSION                       ' '
 
 
