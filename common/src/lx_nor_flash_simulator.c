@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NOR Flash Simulator                                                 */
 /**                                                                       */
@@ -134,7 +135,7 @@ UINT  _lx_nor_flash_simulator_write(ULONG *flash_address, ULONG *source, ULONG w
     /* Loop to write flash.  */
     while (words--)
     {
-     
+
         /* Copy word.  */
         *flash_address++ =  *source++;
     }
@@ -164,7 +165,7 @@ ULONG   words;
     words =  sizeof(FLASH_BLOCK)/sizeof(ULONG);
     while (words--)
     {
-        
+
         /* Erase word of block.  */
         *pointer++ =  (ULONG) 0xFFFFFFFF;
     }
@@ -187,7 +188,7 @@ ULONG   words;
     words =  sizeof(nor_memory_area)/(sizeof(ULONG));
     while (words--)
     {
-        
+
         /* Erase word of block.  */
         *pointer++ =  (ULONG) 0xFFFFFFFF;
     }
@@ -211,22 +212,22 @@ ULONG   words;
 #endif
 
     /* Determine if the block is completely erased.  */
-    
+
     /* Pickup the pointer to the first word of the block.  */
     word_ptr =  (ULONG *) &nor_memory_area[block].erase_count;
-    
+
     /* Calculate the number of words in a block.  */
     words =  sizeof(FLASH_BLOCK)/sizeof(ULONG);
-    
+
     /* Loop to check if the block is erased.  */
     while (words--)
     {
-    
+
         /* Is this word erased?  */
         if (*word_ptr++ != 0xFFFFFFFF)
             return(LX_ERROR);
     }
-    
+
     /* Return success.  */
     return(LX_SUCCESS);
 }

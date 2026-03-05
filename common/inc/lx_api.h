@@ -1,19 +1,20 @@
 /***************************************************************************
  * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
  * Portion Copyright (c) 2025 STMicroelectronics
  *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   Application Interface (API)                                         */
 /**                                                                       */
@@ -37,62 +38,6 @@
 /*    high-performance LevelX. All service prototypes and data structure  */
 /*    definitions are defined in this file.                               */
 /*                                                                        */
-/*  RELEASE HISTORY                                                       */
-/*                                                                        */
-/*    DATE              NAME                      DESCRIPTION             */
-/*                                                                        */
-/*  05-19-2020     William E. Lamie         Initial Version 6.0           */
-/*  09-30-2020     William E. Lamie         Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.1    */
-/*  11-09-2020     William E. Lamie         Modified comment(s), and      */
-/*                                            added support for lx_user.h */
-/*                                            so user can specify values, */
-/*                                            resulting in version 6.1.2  */
-/*  12-31-2020     William E. Lamie         Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.1.3  */
-/*  06-02-2021     Bhupendra Naphade        Modified comment(s),          */
-/*                                            added standalone support,   */
-/*                                            resulting in version 6.1.7  */
-/*  08-02-2021     William E. Lamie         Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.1.8  */
-/*  10-15-2021     Bhupendra Naphade        Modified comment(s),          */
-/*                                            updated configuration for   */
-/*                                            nand flash                  */
-/*                                            resulting in version 6.1.9  */
-/*  01-31-2022     Bhupendra Naphade        Modified comment(s),          */
-/*                                            updated include order for   */
-/*                                            standalone mode,            */
-/*                                            resulting in version 6.1.10 */
-/*  04-25-2022     William E. Lamie         Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.1.11 */
-/*  07-29-2022     William E. Lamie         Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.1.12 */
-/*  10-31-2022     Xiuwen Cai               Modified comment(s), and      */
-/*                                            updated product constants,  */
-/*                                            resulting in version 6.2.0  */
-/*  03-08-2023     Xiuwen Cai               Modified comment(s),          */
-/*                                            modified NAND logic,        */
-/*                                            added new driver interface  */
-/*                                            and user extension,         */
-/*                                            resulting in version 6.2.1  */
-/*  10-31-2023     Xiuwen Cai               Modified comment(s),          */
-/*                                            made LX_NOR_SECTOR_SIZE     */
-/*                                            configurable, added mapping */
-/*                                            bitmap and obsolete count   */
-/*                                            cache for NOR flash,        */
-/*                                            resulting in version 6.3.0  */
-/*  12-31-2023     Xiuwen Cai               Modified comment(s),          */
-/*                                            added configuration checks, */
-/*                                            resulting in version 6.4.0  */
-/*  03-01-2024      Tiejun Zhou             Modified comment(s),          */
-/*                                            update version number,      */
-/*                                            resulting in version 6.4.1  */
-/*                                                                        */
 /**************************************************************************/
 
 #ifndef LX_API_H
@@ -114,7 +59,7 @@ extern   "C" {
 #ifdef LX_INCLUDE_USER_DEFINE_FILE
 
 
-/* Yes, include the user defines in lx_user.h. The defines in this file may 
+/* Yes, include the user defines in lx_user.h. The defines in this file may
    alternately be defined on the command line.  */
 
 #include "lx_user.h"
@@ -240,7 +185,7 @@ typedef unsigned long long                      ULONG64;
 #define LX_SYSTEM_INVALID_BLOCK                     91
 #define LX_SYSTEM_ALLOCATION_FAILED                 92
 #define LX_SYSTEM_MUTEX_CREATE_FAILED               93
-#define LX_SYSTEM_INVALID_SECTOR_MAP                94 
+#define LX_SYSTEM_INVALID_SECTOR_MAP                94
 
 
 /* Define NOR flash constants.  */
@@ -269,9 +214,9 @@ typedef unsigned long long                      ULONG64;
 #endif
 
 
-/* Define the mask for the hash index into the sector mapping cache table.  The sector mapping cache is divided 
-   into 4 entry pieces that are indexed by the formula:  
-   
+/* Define the mask for the hash index into the sector mapping cache table.  The sector mapping cache is divided
+   into 4 entry pieces that are indexed by the formula:
+
             index =  (sector & LX_NOR_SECTOR_MAPPING_CACHE_HASH_MASK) * LX_NOR_SECTOR_MAPPING_CACHE_DEPTH
 
    The LX_NOR_SECTOR_MAPPING_CACHE_DEPTH define must not be changed unless the related source code is also changed.  */
@@ -312,22 +257,22 @@ typedef unsigned long long                      ULONG64;
 
 /* Define the NAND sector mapping cache.  */
 
-#define LX_NAND_SECTOR_MAPPING_CACHE_DEPTH          4           /* Not required if LX_NAND_FLASH_DIRECT_MAPPING_CACHE is defined.  */   
+#define LX_NAND_SECTOR_MAPPING_CACHE_DEPTH          4           /* Not required if LX_NAND_FLASH_DIRECT_MAPPING_CACHE is defined.  */
 #ifndef LX_NAND_SECTOR_MAPPING_CACHE_SIZE
 #define LX_NAND_SECTOR_MAPPING_CACHE_SIZE           128         /* Minimum value of 8, all sizes must be a power of 2, unless direct
                                                                    mapping is defined, in which there is no power of 2 requirement.  */
 #endif
 #ifndef LX_NAND_ERASE_COUNT_WRITE_SIZE
 #define LX_NAND_ERASE_COUNT_WRITE_SIZE              (nand_flash -> lx_nand_flash_pages_per_block + 1)
-#endif  
+#endif
 
 #ifndef LX_NAND_FLASH_MAPPING_LIST_UPDATE_DISABLE
 #define LX_NAND_FLASH_MAPPING_LIST_UPDATE_DISABLE
-#endif 
+#endif
 
 #ifndef LX_NAND_FLASH_MAX_METADATA_BLOCKS
 #define LX_NAND_FLASH_MAX_METADATA_BLOCKS           4
-#endif 
+#endif
 
 #ifndef LX_UTILITY_SHORT_SET
 #define LX_UTILITY_SHORT_SET(address, value)        *((USHORT*)(address)) = (USHORT)(value)
@@ -345,9 +290,9 @@ typedef unsigned long long                      ULONG64;
 #define LX_UTILITY_LONG_GET(address)                (*((ULONG*)(address)))
 #endif
 
-/* Define the mask for the hash index into the NAND sector mapping cache table.  The sector mapping cache is divided 
-   into 4 entry pieces that are indexed by the formula:  
-   
+/* Define the mask for the hash index into the NAND sector mapping cache table.  The sector mapping cache is divided
+   into 4 entry pieces that are indexed by the formula:
+
             index =  (sector & LX_NAND_SECTOR_MAPPING_CACHE_HASH_MASK) * LX_NAND_SECTOR_MAPPING_CACHE_DEPTH
 
    The LX_NAND_SECTOR_MAPPING_CACHE_DEPTH define must not be changed unless the related source code is also changed.  */
@@ -422,7 +367,7 @@ typedef struct LX_NAND_DEVICE_INFO_STRUCT
 } LX_NAND_DEVICE_INFO;
 
 
-/* Determine if the flash control block has an extension defined. If not, 
+/* Determine if the flash control block has an extension defined. If not,
    define the extension to whitespace.  */
 
 #ifndef LX_NAND_FLASH_USER_EXTENSION
@@ -509,7 +454,7 @@ typedef struct LX_NAND_FLASH_STRUCT
     UINT                            (*lx_nand_flash_driver_extra_bytes_get)(struct LX_NAND_FLASH_STRUCT *nand_flash, ULONG block, ULONG page, UCHAR *destination, UINT size);
     UINT                            (*lx_nand_flash_driver_extra_bytes_set)(struct LX_NAND_FLASH_STRUCT *nand_flash, ULONG block, ULONG page, UCHAR *source, UINT size);
     UINT                            (*lx_nand_flash_driver_system_error)(struct LX_NAND_FLASH_STRUCT *nand_flash, UINT error_code, ULONG block, ULONG page);
-    
+
     UINT                            (*lx_nand_flash_driver_pages_read)(struct LX_NAND_FLASH_STRUCT *nand_flash, ULONG block, ULONG page, UCHAR* main_buffer, UCHAR* spare_buffer, ULONG pages);
     UINT                            (*lx_nand_flash_driver_pages_write)(struct LX_NAND_FLASH_STRUCT *nand_flash, ULONG block, ULONG page, UCHAR* main_buffer, UCHAR* spare_buffer, ULONG pages);
     UINT                            (*lx_nand_flash_driver_pages_copy)(struct LX_NAND_FLASH_STRUCT *nand_flash, ULONG source_block, ULONG source_page, ULONG destination_block, ULONG destination_page, ULONG pages, UCHAR* data_buffer);
@@ -524,7 +469,7 @@ typedef struct LX_NAND_FLASH_STRUCT
     UINT                            (*lx_nand_flash_driver_extra_bytes_get)(ULONG block, ULONG page, UCHAR *destination, UINT size);
     UINT                            (*lx_nand_flash_driver_extra_bytes_set)(ULONG block, ULONG page, UCHAR *source, UINT size);
     UINT                            (*lx_nand_flash_driver_system_error)(UINT error_code, ULONG block, ULONG page);
-    
+
     UINT                            (*lx_nand_flash_driver_pages_read)(ULONG block, ULONG page, UCHAR* main_buffer, UCHAR* spare_buffer, ULONG pages);
     UINT                            (*lx_nand_flash_driver_pages_write)(ULONG block, ULONG page, UCHAR* main_buffer, UCHAR* spare_buffer, ULONG pages);
     UINT                            (*lx_nand_flash_driver_pages_copy)(ULONG source_block, ULONG source_page, ULONG destination_block, ULONG destination_page, ULONG pages, UCHAR* data_buffer);
@@ -538,17 +483,17 @@ typedef struct LX_NAND_FLASH_STRUCT
        a higher layer.  */
     TX_MUTEX                        lx_nand_flash_mutex;
 #endif
-    
+
     /* user data pointer optionally passed by the application to the driver via the lx_nand_flash_open_extended */
     VOID                            *lx_nand_flash_driver_info_ptr;
     /* Define the NAND flash control block open next/previous pointers.  */
     struct LX_NAND_FLASH_STRUCT     *lx_nand_flash_open_next,
                                     *lx_nand_flash_open_previous;
 
-    /* Define the user extension in the flash control block. This 
+    /* Define the user extension in the flash control block. This
        is typically defined in lx_user.h.  */
     LX_NAND_FLASH_USER_EXTENSION
-    
+
 } LX_NAND_FLASH;
 
 
@@ -558,7 +503,7 @@ typedef struct LX_NAND_FLASH_STRUCT
 typedef struct LX_NOR_SECTOR_MAPPING_CACHE_ENTRY_STRUCT
 {
     ULONG                           lx_nor_sector_mapping_cache_logical_sector;
-    ULONG                           *lx_nor_sector_mapping_cache_physical_sector_map_entry; 
+    ULONG                           *lx_nor_sector_mapping_cache_physical_sector_map_entry;
     ULONG                           *lx_nor_sector_mapping_cache_physical_sector_address;
 } LX_NOR_SECTOR_MAPPING_CACHE_ENTRY;
 
@@ -567,13 +512,13 @@ typedef struct LX_NOR_SECTOR_MAPPING_CACHE_ENTRY_STRUCT
 
 typedef struct LX_NOR_FLASH_EXTENDED_CACHE_ENTRY_STRUCT
 {
-    ULONG                           *lx_nor_flash_extended_cache_entry_sector_address; 
+    ULONG                           *lx_nor_flash_extended_cache_entry_sector_address;
     ULONG                           *lx_nor_flash_extended_cache_entry_sector_memory;
     ULONG                           lx_nor_flash_extended_cache_entry_access_count;
 } LX_NOR_FLASH_EXTENDED_CACHE_ENTRY;
 
 
-/* Determine if the flash control block has an extension defined. If not, 
+/* Determine if the flash control block has an extension defined. If not,
    define the extension to whitespace.  */
 
 #ifndef LX_NOR_FLASH_USER_EXTENSION
@@ -606,7 +551,7 @@ typedef struct LX_NOR_FLASH_STRUCT
 
     ULONG                           lx_nor_flash_free_block_search;
     ULONG                           lx_nor_flash_found_block_search;
-    ULONG                           lx_nor_flash_found_sector_search;   
+    ULONG                           lx_nor_flash_found_sector_search;
 
     ULONG                           lx_nor_flash_write_requests;
     ULONG                           lx_nor_flash_read_requests;
@@ -642,7 +587,7 @@ typedef struct LX_NOR_FLASH_STRUCT
 
     ULONG                           *lx_nor_flash_sector_buffer;
     UINT                            lx_nor_flash_sector_mapping_cache_enabled;
-    LX_NOR_SECTOR_MAPPING_CACHE_ENTRY   
+    LX_NOR_SECTOR_MAPPING_CACHE_ENTRY
                                     lx_nor_flash_sector_mapping_cache[LX_NOR_SECTOR_MAPPING_CACHE_SIZE];
 
 #ifndef LX_NOR_DISABLE_EXTENDED_CACHE
@@ -660,7 +605,7 @@ typedef struct LX_NOR_FLASH_STRUCT
     LX_NOR_OBSOLETE_COUNT_CACHE_TYPE
                                     *lx_nor_flash_extended_cache_obsolete_count;
     ULONG                           lx_nor_flash_extended_cache_obsolete_count_max_block;
-#endif      
+#endif
 #endif
 
 #ifdef LX_THREAD_SAFE_ENABLE
@@ -675,8 +620,8 @@ typedef struct LX_NOR_FLASH_STRUCT
     /* Define the NOR flash control block open next/previous pointers.  */
     struct LX_NOR_FLASH_STRUCT      *lx_nor_flash_open_next,
                                     *lx_nor_flash_open_previous;
-    
-    /* Define the user extension in the flash control block. This 
+
+    /* Define the user extension in the flash control block. This
        is typically defined in lx_user.h.  */
     LX_NOR_FLASH_USER_EXTENSION
 
@@ -686,24 +631,24 @@ typedef struct LX_NOR_FLASH_STRUCT
 /* Each physical NOR block has the following structure at the beginning of the block:
 
     Offset              Meaning
-    
+
     0           Erase count
     4           Minimum logical sector number - only when the block is full
     8           Maximum logical sector number - only when the block is full
-    12          Free physical sector bit map, where a value of 1 indicates a 
+    12          Free physical sector bit map, where a value of 1 indicates a
                 free physical sector. The bit map is evenly divisible by 4
-    .           Array of physical sector mapping information (4 bytes per entry, 
+    .           Array of physical sector mapping information (4 bytes per entry,
                 one entry for each physical sector in block). Each entry looks
                 like the following:
-                
+
                         Bit(s)                 Meaning
-                        
+
                         0-29                Logical sector mapped if not 0x3FFFFFFF
                         30                  If 0, entry is being superceded
                         31                  If 1, entry is valid
-                          
+
              Array of physical sectors, with each of size LX_NOR_SECTOR_SIZE
-*/    
+*/
 
 
 typedef struct LX_NOR_FLASH_BLOCK_HEADER_STRUCT
@@ -843,5 +788,5 @@ VOID    _lx_nor_flash_system_error(LX_NOR_FLASH *nor_flash, UINT error_code);
 }
 #endif
 
-#endif 
+#endif
 
