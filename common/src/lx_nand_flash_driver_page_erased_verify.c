@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,51 +35,38 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_driver_page_erased_verify            PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_driver_page_erased_verify            PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    William E. Lamie, Microsoft Corporation                             */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function calls the driver to verify the page was erased.       */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
-/*    block                                 Block number                  */ 
-/*    page                                  Page number                   */ 
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    Completion Status                                                   */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    (lx_nand_flash_driver_page_erased_verify)                           */ 
-/*                                          Driver verify page erased     */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    Internal LevelX                                                     */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  05-19-2020     William E. Lamie         Initial Version 6.0           */
-/*  09-30-2020     William E. Lamie         Modified comment(s),          */
-/*                                            resulting in version 6.1    */
-/*  06-02-2021     Bhupendra Naphade        Modified comment(s),          */
-/*                                            resulting in version 6.1.7  */
-/*  03-08-2023     Xiuwen Cai               Modified comment(s),          */
-/*                                            added new driver interface, */
-/*                                            resulting in version 6.2.1 */
+/*    This function calls the driver to verify the page was erased.       */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
+/*    block                                 Block number                  */
+/*    page                                  Page number                   */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    Completion Status                                                   */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    (lx_nand_flash_driver_page_erased_verify)                           */
+/*                                          Driver verify page erased     */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    Internal LevelX                                                     */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_driver_page_erased_verify(LX_NAND_FLASH *nand_flash, ULONG block, ULONG page)

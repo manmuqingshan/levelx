@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,49 +35,43 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_block_find                           PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_block_find                           PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Xiuwen Cai, Microsoft Corporation                                   */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function attempts to find the mapped block for the logical     */ 
-/*    sector in the mapping table.                                        */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
-/*    logical_sector                        Logical sector number         */ 
-/*    superceded_check                      Check for page being          */ 
-/*                                            superceded (can happen if   */ 
-/*                                            on interruptions of page    */ 
-/*                                            write)                      */ 
-/*    block                                 Destination for block         */ 
-/*    page                                  Destination for page          */ 
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    return status                                                       */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    None                                                                */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    Internal LevelX                                                     */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  03-08-2023     Xiuwen Cai               Initial Version 6.2.1        */
+/*    This function attempts to find the mapped block for the logical     */
+/*    sector in the mapping table.                                        */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
+/*    logical_sector                        Logical sector number         */
+/*    superceded_check                      Check for page being          */
+/*                                            superceded (can happen if   */
+/*                                            on interruptions of page    */
+/*                                            write)                      */
+/*    block                                 Destination for block         */
+/*    page                                  Destination for page          */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    return status                                                       */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    None                                                                */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    Internal LevelX                                                     */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_block_find(LX_NAND_FLASH *nand_flash, ULONG logical_sector, ULONG *block, USHORT *block_status)

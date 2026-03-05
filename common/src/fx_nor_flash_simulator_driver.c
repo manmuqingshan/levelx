@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** FileX Component                                                       */ 
+/**                                                                       */
+/** FileX Component                                                       */
 /**                                                                       */
 /**   FileX NOR FLASH Simulator Driver                                    */
 /**                                                                       */
@@ -32,22 +33,22 @@ LX_NOR_FLASH       nor_flash;
 
 
 /* The simulated NOR driver relies on the fx_media_format call to be made prior to
-   the fx_media_open call.   
+   the fx_media_open call.
 
-        fx_media_format(&ram_disk, 
+        fx_media_format(&ram_disk,
                             _fx_nor_sim_driver,                 // Driver entry
                             FX_NULL,                            // Unused
                             media_memory,                       // Media buffer pointer
-                            sizeof(media_memory),               // Media buffer size 
+                            sizeof(media_memory),               // Media buffer size
                             "MY_NOR_DISK",                      // Volume Name
                             1,                                  // Number of FATs
                             32,                                 // Directory Entries
                             0,                                  // Hidden sectors
-                            120,                                // Total sectors 
-                            LX_NOR_SECTOR_SIZE * sizeof(ULONG), // Sector size   
+                            120,                                // Total sectors
+                            LX_NOR_SECTOR_SIZE * sizeof(ULONG), // Sector size
                             1,                                  // Sectors per cluster
                             1,                                  // Heads
-                            1);                                 // Sectors per track 
+                            1);                                 // Sectors per track
 
 */
 
@@ -58,66 +59,56 @@ UINT  _lx_nor_flash_simulator_initialize(LX_NOR_FLASH *nor_flash);
 VOID  _fx_nor_flash_simulator_driver(FX_MEDIA *media_ptr);
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _fx_nor_flash_simulator_driver                      PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _fx_nor_flash_simulator_driver                      PORTABLE C      */
 /*                                                           6.1.7        */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    William E. Lamie, Microsoft Corporation                             */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function is the entry point to the generic NOR simulated       */ 
-/*    disk driver that is delivered with the flash wear leveling product  */ 
-/*    LevelX.                                                             */ 
-/*                                                                        */ 
-/*    This driver also serves as a template for developing other LevelX   */ 
-/*    NOR flash drivers for actual flash devices. Simply replace the      */ 
-/*    read/write sector logic with calls to read/write from the           */ 
-/*    appropriate physical device access functions.                       */ 
-/*                                                                        */ 
-/*    FileX NOR FLASH structures look like the following:                 */ 
-/*                                                                        */ 
-/*          Logical Sector                  Contents                      */ 
-/*                                                                        */ 
-/*              0                       Boot record                       */ 
-/*              1                       FAT Area Start                    */ 
-/*              +FAT Sectors            Root Directory Start              */ 
-/*              +Directory Sectors      Data Sector Start                 */ 
-/*                                                                        */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    media_ptr                             Media control block pointer   */ 
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    None                                                                */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    lx_nor_flash_close                    Close NOR flash manager       */ 
-/*    lx_nor_flash_open                     Open NOR flash manager        */ 
-/*    lx_nor_flash_sector_read              Read a NOR sector             */ 
-/*    lx_nor_flash_sector_release           Release a NOR sector          */ 
-/*    lx_nor_flash_sector_write             Write a NOR sector            */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    FileX System Functions                                              */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  05-19-2020     William E. Lamie         Initial Version 6.0           */
-/*  09-30-2020     William E. Lamie         Modified comment(s),          */
-/*                                            resulting in version 6.1    */
-/*  06-02-2021     Bhupendra Naphade        Modified comment(s),          */
-/*                                            resulting in version 6.1.7  */
+/*    This function is the entry point to the generic NOR simulated       */
+/*    disk driver that is delivered with the flash wear leveling product  */
+/*    LevelX.                                                             */
+/*                                                                        */
+/*    This driver also serves as a template for developing other LevelX   */
+/*    NOR flash drivers for actual flash devices. Simply replace the      */
+/*    read/write sector logic with calls to read/write from the           */
+/*    appropriate physical device access functions.                       */
+/*                                                                        */
+/*    FileX NOR FLASH structures look like the following:                 */
+/*                                                                        */
+/*          Logical Sector                  Contents                      */
+/*                                                                        */
+/*              0                       Boot record                       */
+/*              1                       FAT Area Start                    */
+/*              +FAT Sectors            Root Directory Start              */
+/*              +Directory Sectors      Data Sector Start                 */
+/*                                                                        */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    media_ptr                             Media control block pointer   */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    None                                                                */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    lx_nor_flash_close                    Close NOR flash manager       */
+/*    lx_nor_flash_open                     Open NOR flash manager        */
+/*    lx_nor_flash_sector_read              Read a NOR sector             */
+/*    lx_nor_flash_sector_release           Release a NOR sector          */
+/*    lx_nor_flash_sector_write             Write a NOR sector            */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    FileX System Functions                                              */
 /*                                                                        */
 /**************************************************************************/
 VOID  _fx_nor_flash_simulator_driver(FX_MEDIA *media_ptr)
@@ -133,14 +124,14 @@ UINT        status;
     /* There are several useful/important pieces of information contained in the media
        structure, some of which are supplied by FileX and others are for the driver to
        setup. The following is a summary of the necessary FX_MEDIA structure members:
-       
+
             FX_MEDIA Member                              Meaning
-                                        
-        fx_media_driver_request             FileX request type. Valid requests from FileX are 
+
+        fx_media_driver_request             FileX request type. Valid requests from FileX are
                                             as follows:
 
                                                     FX_DRIVER_READ
-                                                    FX_DRIVER_WRITE                 
+                                                    FX_DRIVER_WRITE
                                                     FX_DRIVER_FLUSH
                                                     FX_DRIVER_ABORT
                                                     FX_DRIVER_INIT
@@ -149,11 +140,11 @@ UINT        status;
                                                     FX_DRIVER_BOOT_WRITE
                                                     FX_DRIVER_UNINIT
 
-        fx_media_driver_status              This value is RETURNED by the driver. If the 
+        fx_media_driver_status              This value is RETURNED by the driver. If the
                                             operation is successful, this field should be
                                             set to FX_SUCCESS for before returning. Otherwise,
                                             if an error occurred, this field should be set
-                                            to FX_IO_ERROR. 
+                                            to FX_IO_ERROR.
 
         fx_media_driver_buffer              Pointer to buffer to read or write sector data.
                                             This is supplied by FileX.
@@ -164,24 +155,24 @@ UINT        status;
 
 
        The following is a summary of the optional FX_MEDIA structure members:
-       
+
             FX_MEDIA Member                              Meaning
-                                        
+
         fx_media_driver_info                Pointer to any additional information or memory.
                                             This is optional for the driver use and is setup
                                             from the fx_media_open call. The RAM disk uses
                                             this pointer for the RAM disk memory itself.
 
-        fx_media_driver_write_protect       The DRIVER sets this to FX_TRUE when media is write 
-                                            protected. This is typically done in initialization, 
+        fx_media_driver_write_protect       The DRIVER sets this to FX_TRUE when media is write
+                                            protected. This is typically done in initialization,
                                             but can be done anytime.
 
-        fx_media_driver_free_sector_update  The DRIVER sets this to FX_TRUE when it needs to 
+        fx_media_driver_free_sector_update  The DRIVER sets this to FX_TRUE when it needs to
                                             know when clusters are released. This is important
                                             for FLASH wear-leveling drivers.
 
         fx_media_driver_system_write        FileX sets this flag to FX_TRUE if the sector being
-                                            written is a system sector, e.g., a boot, FAT, or 
+                                            written is a system sector, e.g., a boot, FAT, or
                                             directory sector. The driver may choose to use this
                                             to initiate error recovery logic for greater fault
                                             tolerance.
@@ -189,15 +180,15 @@ UINT        status;
         fx_media_driver_data_sector_read    FileX sets this flag to FX_TRUE if the sector(s) being
                                             read are file data sectors, i.e., NOT system sectors.
 
-        fx_media_driver_sector_type         FileX sets this variable to the specific type of 
+        fx_media_driver_sector_type         FileX sets this variable to the specific type of
                                             sector being read or written. The following sector
                                             types are identified:
 
-                                                    FX_UNKNOWN_SECTOR 
+                                                    FX_UNKNOWN_SECTOR
                                                     FX_BOOT_SECTOR
                                                     FX_FAT_SECTOR
                                                     FX_DIRECTORY_SECTOR
-                                                    FX_DATA_SECTOR  
+                                                    FX_DATA_SECTOR
     */
 
     /* Process the driver request specified in the media control block.  */
@@ -214,19 +205,19 @@ UINT        status;
             /* Loop to read sectors from flash.  */
             for (i = 0; i < media_ptr -> fx_media_driver_sectors; i++)
             {
-            
+
                 /* Read a sector from NOR flash.  */
                 status =  lx_nor_flash_sector_read(&nor_flash, logical_sector, destination_buffer);
 
                 /* Determine if the read was successful.  */
                 if (status != LX_SUCCESS)
                 {
-                
+
                     /* Return an I/O error to FileX.  */
                     media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                     return;
-                } 
+                }
 
                 /* Move to the next entries.  */
                 logical_sector++;
@@ -237,7 +228,7 @@ UINT        status;
             media_ptr -> fx_media_driver_status =  FX_SUCCESS;
             break;
         }
-        
+
         case FX_DRIVER_WRITE:
         {
 
@@ -248,19 +239,19 @@ UINT        status;
             /* Loop to write sectors to flash.  */
             for (i = 0; i < media_ptr -> fx_media_driver_sectors; i++)
             {
-            
+
                 /* Write a sector to NOR flash.  */
                 status =  lx_nor_flash_sector_write(&nor_flash, logical_sector, source_buffer);
 
                 /* Determine if the write was successful.  */
                 if (status != LX_SUCCESS)
                 {
-                
+
                     /* Return an I/O error to FileX.  */
                     media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                     return;
-                } 
+                }
 
                 /* Move to the next entries.  */
                 logical_sector++;
@@ -274,26 +265,26 @@ UINT        status;
 
         case FX_DRIVER_RELEASE_SECTORS:
         {
-        
+
             /* Setup the logical sector.  */
             logical_sector =  media_ptr -> fx_media_driver_logical_sector;
 
             /* Release sectors.  */
             for (i = 0; i < media_ptr -> fx_media_driver_sectors; i++)
             {
-            
+
                 /* Release NOR flash sector.  */
                 status =  lx_nor_flash_sector_release(&nor_flash, logical_sector);
 
                 /* Determine if the sector release was successful.  */
                 if (status != LX_SUCCESS)
                 {
-                
+
                     /* Return an I/O error to FileX.  */
                     media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                     return;
-                } 
+                }
 
                 /* Move to the next entries.  */
                 logical_sector++;
@@ -323,7 +314,7 @@ UINT        status;
         case FX_DRIVER_INIT:
         {
 
-            /* FLASH drivers are responsible for setting several fields in the 
+            /* FLASH drivers are responsible for setting several fields in the
                media structure, as follows:
 
                     media_ptr -> fx_media_driver_free_sector_update
@@ -331,7 +322,7 @@ UINT        status;
 
                The fx_media_driver_free_sector_update flag is used to instruct
                FileX to inform the driver whenever sectors are not being used.
-               This is especially useful for FLASH managers so they don't have 
+               This is especially useful for FLASH managers so they don't have
                maintain mapping for sectors no longer in use.
 
                The fx_media_driver_write_protect flag can be set anytime by the
@@ -351,12 +342,12 @@ UINT        status;
             /* Determine if the flash open was successful.  */
             if (status != LX_SUCCESS)
             {
-                
+
                 /* Return an I/O error to FileX.  */
                 media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                 return;
-            } 
+            }
 
             /* Successful driver request.  */
             media_ptr -> fx_media_driver_status =  FX_SUCCESS;
@@ -375,18 +366,18 @@ UINT        status;
             /* Determine if the flash close was successful.  */
             if (status != LX_SUCCESS)
             {
-                
+
                 /* Return an I/O error to FileX.  */
                 media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                 return;
-            } 
+            }
 
             /* Successful driver request.  */
             media_ptr -> fx_media_driver_status =  FX_SUCCESS;
             break;
         }
-        
+
         case FX_DRIVER_BOOT_READ:
         {
 
@@ -412,12 +403,12 @@ UINT        status;
             /* Determine if the boot read was successful.  */
             if (status != LX_SUCCESS)
             {
-                
+
                 /* Return an I/O error to FileX.  */
                 media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                 return;
-            } 
+            }
 
             /* Successful driver request.  */
             media_ptr -> fx_media_driver_status =  FX_SUCCESS;
@@ -447,12 +438,12 @@ UINT        status;
             /* Determine if the boot write was successful.  */
             if (status != LX_SUCCESS)
             {
-                
+
                 /* Return an I/O error to FileX.  */
                 media_ptr -> fx_media_driver_status =  FX_IO_ERROR;
-                    
+
                 return;
-            } 
+            }
 
             /* Successful driver request.  */
             media_ptr -> fx_media_driver_status =  FX_SUCCESS;

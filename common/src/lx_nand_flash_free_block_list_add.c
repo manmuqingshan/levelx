@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,42 +35,36 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_free_block_list_add                  PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_free_block_list_add                  PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Xiuwen Cai, Microsoft Corporation                                   */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function adds a block to free block list.                      */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
-/*    block                                 Block number                  */ 
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    return status                                                       */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    None                                                                */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    Internal LevelX                                                     */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  03-08-2023     Xiuwen Cai               Initial Version 6.2.1        */
+/*    This function adds a block to free block list.                      */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
+/*    block                                 Block number                  */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    return status                                                       */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    None                                                                */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    Internal LevelX                                                     */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_free_block_list_add(LX_NAND_FLASH* nand_flash, ULONG block)
@@ -101,7 +96,7 @@ UCHAR new_block_erase_count;
     search_position = (INT)insert_position - 1;
 
     /* Loop to search the insert position by block erase count.  */
-    while ((search_position >= 0) && 
+    while ((search_position >= 0) &&
            (nand_flash -> lx_nand_flash_erase_count_table[nand_flash -> lx_nand_flash_block_list[search_position]] < new_block_erase_count))
     {
 
