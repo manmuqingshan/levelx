@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,46 +35,40 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_sectors_write                        PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_sectors_write                        PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Xiuwen Cai, Microsoft Corporation                                   */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function writes multiple logical sectors to the NAND flash.    */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
-/*    logical_sector                        Logical sector number         */ 
-/*    buffer                                Pointer to buffer to write    */ 
-/*                                            (the size is number of      */ 
-/*                                             bytes in a page)           */ 
-/*    sector_count                          Number of sector to write     */
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    return status                                                       */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_sector_write           Write one sector              */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    Application Code                                                    */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  03-08-2023     Xiuwen Cai               Initial Version 6.2.1        */
+/*    This function writes multiple logical sectors to the NAND flash.    */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
+/*    logical_sector                        Logical sector number         */
+/*    buffer                                Pointer to buffer to write    */
+/*                                            (the size is number of      */
+/*                                             bytes in a page)           */
+/*    sector_count                          Number of sector to write     */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    return status                                                       */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    _lx_nand_flash_sector_write           Write one sector              */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    Application Code                                                    */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_sectors_write(LX_NAND_FLASH *nand_flash, ULONG logical_sector, VOID *buffer, ULONG sector_count)
@@ -89,7 +84,7 @@ UINT i;
 
         /* Write one sector.  */
         status = _lx_nand_flash_sector_write(nand_flash, logical_sector + i, ((UCHAR*)buffer) + i * nand_flash -> lx_nand_flash_bytes_per_page);
-        
+
         /* Check return status.  */
         if (status)
         {

@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,44 +35,38 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_memory_initialize                    PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_memory_initialize                    PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Xiuwen Cai, Microsoft Corporation                                   */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function imitialize memory buffer for NAND flash instance.     */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
+/*  DESCRIPTION                                                           */
+/*                                                                        */
+/*    This function imitialize memory buffer for NAND flash instance.     */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
 /*    memory_ptr                            Pointer to memory used by the */
 /*                                            LevelX for this NAND.       */
 /*    memory_size                           Size of memory                */
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    return status                                                       */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    LX_MEMSET                             Initialize memory             */ 
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    return status                                                       */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    LX_MEMSET                             Initialize memory             */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
 /*    Internal LevelX                                                     */
-/*                                                                        */
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
-/*                                                                        */
-/*  03-08-2023     Xiuwen Cai               Initial Version 6.2.1        */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_memory_initialize(LX_NAND_FLASH  *nand_flash, ULONG* memory_ptr, UINT memory_size)
@@ -124,7 +119,7 @@ UINT    buffer_size;
 
     /* Assign memory for erase count table.  */
     nand_flash -> lx_nand_flash_erase_count_table = (UCHAR*)(((UCHAR*)memory_ptr) + memory_offset);
-    
+
     /* Update memory offset.  */
     memory_offset += buffer_size;
 

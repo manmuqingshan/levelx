@@ -1,18 +1,19 @@
 /***************************************************************************
- * Copyright (c) 2024 Microsoft Corporation 
- * 
+ * Copyright (c) 2024 Microsoft Corporation
+ * Copyright (c) 2026-present Eclipse ThreadX contributors
+ *
  * This program and the accompanying materials are made available under the
  * terms of the MIT License which is available at
  * https://opensource.org/licenses/MIT.
- * 
+ *
  * SPDX-License-Identifier: MIT
  **************************************************************************/
 
 
 /**************************************************************************/
 /**************************************************************************/
-/**                                                                       */ 
-/** LevelX Component                                                      */ 
+/**                                                                       */
+/** LevelX Component                                                      */
 /**                                                                       */
 /**   NAND Flash                                                          */
 /**                                                                       */
@@ -34,41 +35,35 @@
 #include "lx_api.h"
 
 
-/**************************************************************************/ 
-/*                                                                        */ 
-/*  FUNCTION                                               RELEASE        */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_metadata_build                       PORTABLE C      */ 
+/**************************************************************************/
+/*                                                                        */
+/*  FUNCTION                                               RELEASE        */
+/*                                                                        */
+/*    _lx_nand_flash_metadata_build                       PORTABLE C      */
 /*                                                           6.2.1       */
 /*  AUTHOR                                                                */
 /*                                                                        */
 /*    Xiuwen Cai, Microsoft Corporation                                   */
 /*                                                                        */
-/*  DESCRIPTION                                                           */ 
-/*                                                                        */ 
-/*    This function rewrites all metadata pages.                          */ 
-/*                                                                        */ 
-/*  INPUT                                                                 */ 
-/*                                                                        */ 
-/*    nand_flash                            NAND flash instance           */ 
-/*                                                                        */ 
-/*  OUTPUT                                                                */ 
-/*                                                                        */ 
-/*    return status                                                       */ 
-/*                                                                        */ 
-/*  CALLS                                                                 */ 
-/*                                                                        */ 
-/*    _lx_nand_flash_metadata_write         Write metadata                */
-/*                                                                        */ 
-/*  CALLED BY                                                             */ 
-/*                                                                        */ 
-/*    Internal LevelX                                                     */ 
-/*                                                                        */ 
-/*  RELEASE HISTORY                                                       */ 
-/*                                                                        */ 
-/*    DATE              NAME                      DESCRIPTION             */
+/*  DESCRIPTION                                                           */
 /*                                                                        */
-/*  03-08-2023     Xiuwen Cai               Initial Version 6.2.1        */
+/*    This function rewrites all metadata pages.                          */
+/*                                                                        */
+/*  INPUT                                                                 */
+/*                                                                        */
+/*    nand_flash                            NAND flash instance           */
+/*                                                                        */
+/*  OUTPUT                                                                */
+/*                                                                        */
+/*    return status                                                       */
+/*                                                                        */
+/*  CALLS                                                                 */
+/*                                                                        */
+/*    _lx_nand_flash_metadata_write         Write metadata                */
+/*                                                                        */
+/*  CALLED BY                                                             */
+/*                                                                        */
+/*    Internal LevelX                                                     */
 /*                                                                        */
 /**************************************************************************/
 UINT  _lx_nand_flash_metadata_build(LX_NAND_FLASH *nand_flash)
@@ -109,7 +104,7 @@ UINT                i;
     {
 
         /* Write erase count table.  */
-        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_erase_count_table + 
+        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_erase_count_table +
                                                 i * nand_flash -> lx_nand_flash_bytes_per_page),
                                                 LX_NAND_PAGE_TYPE_ERASE_COUNT_TABLE | i);
 
@@ -130,8 +125,8 @@ UINT                i;
     {
 
         /* Write block mapping table.  */
-        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_block_mapping_table + 
-                                                i * nand_flash -> lx_nand_flash_bytes_per_page / sizeof(*nand_flash -> lx_nand_flash_block_mapping_table)), 
+        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_block_mapping_table +
+                                                i * nand_flash -> lx_nand_flash_bytes_per_page / sizeof(*nand_flash -> lx_nand_flash_block_mapping_table)),
                                                 LX_NAND_PAGE_TYPE_BLOCK_MAPPING_TABLE | i);
         /* Check return status.  */
         if (status != LX_SUCCESS)
@@ -150,14 +145,14 @@ UINT                i;
     {
 
         /* Write block status table.  */
-        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_block_status_table + 
-                                            i * nand_flash -> lx_nand_flash_bytes_per_page / sizeof(*nand_flash -> lx_nand_flash_block_status_table)), 
+        status = _lx_nand_flash_metadata_write(nand_flash, (UCHAR*)(nand_flash -> lx_nand_flash_block_status_table +
+                                            i * nand_flash -> lx_nand_flash_bytes_per_page / sizeof(*nand_flash -> lx_nand_flash_block_status_table)),
                                             LX_NAND_PAGE_TYPE_BLOCK_STATUS_TABLE | i);
 
         /* Check return status.  */
         if (status != LX_SUCCESS)
         {
-            
+
             /* Return error status.  */
             return(status);
         }
